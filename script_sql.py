@@ -46,8 +46,8 @@ def close_con():
 
 
 if __name__ == "__main__":
-    #print(parsing_html('https://api-metrika.yandex.ru/stat/v1/data?preset=sources_search_phrases&limit=10000&pretty=true&date1=2015-08-10&date2=2018-08-11&id=23220061&oauth_token=AQAAAAACPju0AAUlKa2hb5GQsEVOrhj984J9NYk'))
-    print(connect('panel', 'postgres', 'localhost', 'asdwx123'))
+    #print(parsing_html('https://api-metrika.yandex.ru/stat/v1/data?preset=sources_search_phrases&limit=10000&pretty=true&date1=2015-08-10&date2=2018-08-11&id=23220061&oauth_token='))
+    print(connect('panel', 'postgres', 'localhost', ''))
     sql_elements = view_stats("""SELECT * FROM stats WHERE searchsystem = 'Яндекс' LIMIT 10""")
     for elements in rows:
         print(elements)
