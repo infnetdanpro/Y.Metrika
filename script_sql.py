@@ -30,10 +30,9 @@ def record_stats():
         try:
             cur.execute(sql)
             conn.commit()
-            
-            print('SQL Success!')
+            return 'SQL Success!'
         except:
-            print ('I can\'t write!')
+            return 'I can\'t write!'
     cur.close()
 
 def view_stats(sql_query):
