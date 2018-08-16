@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 #put in cmd.exe: chcp 65001 (utf-8)
+#SEO-продвижение и оптимизация сайта с результатами: http://seo-infnet.ru/
 import requests
 import json
 import psycopg2
