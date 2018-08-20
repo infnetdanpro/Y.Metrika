@@ -42,7 +42,7 @@ def close_con():
 
 
 if __name__ == "__main__":
-    print(connect('panel', 'postgres', 'localhost', 'asdwx123'))
+    print(connect('panel', 'postgres', 'localhost', ''))
     html = parsing_html('https://api-metrika.yandex.ru/stat/v1/data?preset=sources_search_phrases&limit=10000&pretty=true&date1=2015-08-10&date2=2018-08-11&id=23220061&oauth_token=AQAAAAACPju0AAUlKa2hb5GQsEVOrhj984J9NYk')
     for l in html['data']:
         list_dim = []
