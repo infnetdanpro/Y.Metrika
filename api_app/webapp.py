@@ -85,7 +85,7 @@ def get_tags_id(tags_id):
 
 @app.route('/api/1.0/tags/search/', methods=['POST'])
 def search():
-    searchword = (request.json['query'])
+    searchword = request.json['query']
     if searchword:
         tags = []
         with db_conn() as db:
