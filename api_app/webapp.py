@@ -83,15 +83,6 @@ def get_tags_id(tags_id):
             tags.append({"id": id, "keyword": keyword, "searchsystem": searchsystem, "bouncerate": bouncerate, "deeppage": deeppage, "visittime": visittime})
         return resp(200, {"tags": tags})
 
-
-'''@app.route('/api/1.0/tags/search/', methods=['POST'])
-def search():
-    if not request.json:
-        abort(400)
-    print ((request.json['query']))
-    return json.dumps(request.json)
-    #return resp(200, {"tags": searchword})'''
-
 @app.route('/api/1.0/tags/search/', methods=['POST'])
 def search():
     searchword = (request.json['query'])
