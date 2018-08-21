@@ -20,7 +20,7 @@ def resp(code, data):
     )
 
 
-def stats_validate():
+def tags_validate():
     errors = []
     json = flask.request.get_json()
     if json is None:
@@ -46,7 +46,7 @@ def affected_num_to_code(cnt):
 
 @app.route('/')
 def root():
-    return flask.redirect('/api/1.0/stats/')
+    return flask.redirect('/api/1.0/tags/')
 
 # e.g. failed to parse json
 @app.errorhandler(400)
@@ -64,39 +64,47 @@ def page_not_found(e):
     return resp(405, {})
 
 
-@app.route('/api/1.0/stats/', methods=['GET'])
-def get_stats():
+@app.route('/api/1.0/tags/', methods=['GET'])
+def get_tags():
     with db_conn() as db:
         tuples = db.query("SELECT id, keyword, searchsystem, visit, bouncerate, deeppage, visittime FROM stats")
-        stats = []
+        tags = []
         for (id, keyword, searchsystem, visit, bouncerate, deeppage, visittime ) in tuples:
-            stats.append({"id": id, "keyword": keyword, "searchsystem": searchsystem, "bouncerate": bouncerate, "deeppage": deeppage, "visittime": visittime})
-        return resp(200, {"stats": stats})
+            tags.append({"id": id, "keyword": keyword, "searchsystem": searchsystem, "bouncerate": bouncerate, "deeppage": deeppage, "visittime": visittime})
+        return resp(200, {"tags": tags})
 
 
-@app.route('/api/1.0/stats/<int:stats_id>', methods=['GET'])
-def get_stats_id(stats_id):
+@app.route('/api/1.0/tags/<int:tags_id>', methods=['GET'])
+def get_tags_id(tags_id):
     with db_conn() as db:
-        listes = db.query("SELECT id, keyword, searchsystem, visit, bouncerate, deeppage, visittime FROM stats WHERE id = %s" % (stats_id))
-        stats = [] 
+        listes = db.query("SELECT id, keyword, searchsystem, visit, bouncerate, deeppage, visittime FROM stats WHERE id = %s" % (tags_id))
+        tags = [] 
         for (id, keyword, searchsystem, visit, bouncerate, deeppage, visittime) in listes:
-            stats.append({"id": id, "keyword": keyword, "searchsystem": searchsystem, "bouncerate": bouncerate, "deeppage": deeppage, "visittime": visittime})
-        return resp(200, {"stats": stats})
+            tags.append({"id": id, "keyword": keyword, "searchsystem": searchsystem, "bouncerate": bouncerate, "deeppage": deeppage, "visittime": visittime})
+        return resp(200, {"tags": tags})
 
 
-@app.route('/api/1.0/stats/search/', methods=['GET'])
+'''@app.route('/api/1.0/tags/search/', methods=['POST'])
 def search():
-    searchword = request.args.get('query', '')
-    if searchword != '':
-        stats = []
+    if not request.json:
+        abort(400)
+    print ((request.json['query']))
+    return json.dumps(request.json)
+    #return resp(200, {"tags": searchword})'''
+
+@app.route('/api/1.0/tags/search/', methods=['POST'])
+def search():
+    searchword = (request.json['query'])
+    if searchword:
+        tags = []
         with db_conn() as db:
             listes = db.query("SELECT id, keyword, searchsystem, visit, bouncerate, deeppage, visittime FROM stats WHERE keyword LIKE '%"+str(searchword)+"%'")
-            stats = []
+            tags = []
             for (id, keyword, searchsystem, visit, bouncerate, deeppage, visittime) in listes:
-                stats.append({"id": id, "keyword": keyword, "searchsystem": searchsystem, "bouncerate": bouncerate, "deeppage": deeppage, "visittime": visittime})
-            return resp(200, {"stats": stats})
+                tags.append({"id": id, "keyword": keyword, "searchsystem": searchsystem, "bouncerate": bouncerate, "deeppage": deeppage, "visittime": visittime})
+            return resp(200, {"tags": tags})
     else:
-        return resp(404)
+        return abort(400)
 
 if __name__ == '__main__':
     app.run()
